@@ -354,7 +354,7 @@ const lf=inp.closest(’.lf’);if(lf&&c[f])lf.style.borderColor=inp.value?c[f]+
 }));
 }
 
-load();render();
+try{load();render();}catch(e){document.getElementById(“app”).innerHTML=”<div style='padding:40px 20px;color:#dde1f0;font-family:sans-serif'><h2>Loading error</h2><p style='color:#ef4444'>”+e.message+”</p></div>”;}
 </script>
 
 </body>
