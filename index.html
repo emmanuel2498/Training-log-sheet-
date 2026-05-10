@@ -3,99 +3,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Training Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{background:#080810;color:#dde1f0;font-family:'Syne',sans-serif;min-height:100vh}
-input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+html,body{background:#080810;color:#dde1f0;font-family:'Syne',Arial,sans-serif;min-height:100vh}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
-input,textarea,button{font-family:'Syne',sans-serif}
 .app{padding-bottom:84px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:1px solid #1a1a2e;display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom,0px)}
-.nb{flex:1;padding:10px 2px 8px;background:none;border:none;color:#444;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .15s}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#0d0d1a;border-top:1px solid #1a1a2e;display:flex;z-index:100}
+.nb{flex:1;padding:10px 2px 8px;background:none;border:none;color:#444;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
 .nb.on{color:#dde1f0}
-.ndot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:0;transition:opacity .15s}
+.ndot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:0}
 .nb.on .ndot{opacity:1}
 .hd{background:#0d0d1a;border-bottom:1px solid #1a1a2e;padding:20px 18px 14px;position:sticky;top:0;z-index:50}
 .hl{font-size:10px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px}
-.hr{display:flex;justify-content:space-between;align-items:flex-end}
-.ht{font-size:24px;font-weight:800;letter-spacing:-.03em}
-.hdate{font-family:'JetBrains Mono';font-size:11px;color:#444}
-.pb{margin-top:12px}
-.pbr{display:flex;justify-content:space-between;margin-bottom:5px}
-.pbl{font-size:11px;color:#555}
-.pbp{font-size:11px;font-weight:600}
+.hr{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.ht{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.hdate{font-family:'JetBrains Mono',monospace;font-size:11px;color:#444;flex-shrink:0}
+.pbrow{display:flex;justify-content:space-between;margin-bottom:5px;margin-top:12px}
 .pbt{height:3px;background:#1a1a2e;border-radius:99px}
-.pbf{height:100%;border-radius:99px;transition:width .4s}
+.pbf{height:100%;border-radius:99px}
 .ct{padding:16px}
 .sl{font-size:10px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:12px}
-.ec{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;overflow:hidden;margin-bottom:10px;transition:border-color .3s}
-.ec.dn{border-color:rgba(34,197,94,.25)}
-.eh{padding:13px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.ec{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;overflow:hidden;margin-bottom:10px}
+.ec.done-card{border-color:rgba(34,197,94,.25)}
+.eh{padding:13px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
 .ei{flex:1}
 .ecr{display:flex;align-items:center;gap:7px;margin-bottom:3px}
-.edot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.edot{width:5px;height:5px;border-radius:50%;flex-shrink:0;display:inline-block}
 .ecat{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:600}
 .ename{font-weight:700;font-size:14px;line-height:1.3}
-.ecue{font-size:10px;color:#444;margin-top:3px;font-family:'JetBrains Mono'}
-.er{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ecue{font-size:10px;color:#444;margin-top:3px;font-family:'JetBrains Mono',monospace}
+.eright{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .edb{font-size:10px;color:#22c55e;font-weight:700}
-.ech{color:#333;font-size:15px;transition:transform .2s;display:inline-block}
-.ech.op{transform:rotate(180deg)}
 .es{padding:0 12px 12px;display:flex;flex-direction:column;gap:7px}
-.sr{background:rgba(255,255,255,.02);border:1px solid #1a1a2e;border-radius:10px;padding:10px;transition:all .15s}
-.sr.ck{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.15)}
+.sr{background:rgba(255,255,255,.02);border:1px solid #1a1a2e;border-radius:10px;padding:10px}
+.sr.done-set{background:rgba(34,197,94,.04);border-color:rgba(34,197,94,.15)}
 .st{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.sn{font-family:'JetBrains Mono';font-size:10px;color:#444;flex-shrink:0;width:34px}
-.sg{font-size:13px;font-weight:600;flex:1;transition:all .15s}
-.sg.dn{color:#444;text-decoration:line-through}
+.sn{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;flex-shrink:0;width:34px}
+.sg{font-size:13px;font-weight:600;flex:1}
+.sg.done-txt{color:#444;text-decoration:line-through}
 .rpb{background:rgba(239,68,68,.15);color:#ef4444;font-size:8px;font-weight:800;letter-spacing:.1em;padding:2px 5px;border-radius:3px;flex-shrink:0}
-.ssb{background:rgba(168,85,247,.15);color:#a855f7;font-size:8px;font-weight:800;letter-spacing:.08em;padding:2px 5px;border-radius:3px;flex-shrink:0}
-.cb{width:22px;height:22px;border-radius:6px;border:2px solid #2a2a3e;background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;user-select:none}
-.cb.ck{border-color:#22c55e;background:#22c55e}
-.ct2{font-size:11px;color:#080810;font-weight:800}
-.si{display:grid;gap:8px}
-.si.nrp{grid-template-columns:1fr 1fr}
-.si.wrp{grid-template-columns:1fr 1fr 1fr}
+.ssb{background:rgba(168,85,247,.15);color:#a855f7;font-size:8px;font-weight:800;padding:2px 5px;border-radius:3px;flex-shrink:0}
+.cb{width:22px;height:22px;border-radius:6px;border:2px solid #2a2a3e;background:transparent;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cb.done-cb{border-color:#22c55e;background:#22c55e}
+.cbtick{font-size:11px;color:#080810;font-weight:800}
+.si2{display:grid;gap:8px;grid-template-columns:1fr 1fr}
 .ig label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
 .iw{position:relative}
-.ni{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:7px;color:#333;font-family:'JetBrains Mono';font-size:13px;font-weight:500;padding:7px 30px 7px 10px;outline:none;transition:border-color .15s}
+.ni{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:7px;color:#333;font-family:'JetBrains Mono',monospace;font-size:13px;padding:7px 30px 7px 10px;outline:none;-webkit-appearance:none;appearance:none}
 .ni.hv{color:#dde1f0}
-.iu{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:#444;pointer-events:none;font-family:'JetBrains Mono'}
+.iu{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:#444;pointer-events:none}
+.locked{background:#0a0a14;border:1px solid #1a1a2e;border-radius:7px;padding:7px 10px;font-size:11px;color:#2a2a3e;font-family:'JetBrains Mono',monospace}
 .cc{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;padding:16px;margin-top:14px}
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .cs{background:#0a0a14;border-radius:8px;padding:10px 12px}
 .csl{font-size:10px;color:#444;margin-bottom:3px}
 .csv{font-weight:700;font-size:14px}
 .dac{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;padding:16px;margin-bottom:18px}
-.dah{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.avgh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .avg-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .ags{background:#0a0a14;border-radius:10px;padding:12px 8px;text-align:center}
 .agl{font-size:9px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
-.agv{font-family:'JetBrains Mono';font-size:18px;font-weight:600}
+.agv{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600}
 .agu{font-size:9px;color:#444;margin-top:2px}
 .ws{display:flex;gap:4px;margin-top:12px}
 .wd{flex:1;text-align:center}
 .wdl{font-size:8px;margin-bottom:4px}
-.wdb{height:6px;border-radius:99px;background:#1a1a2e;transition:background .3s}
-.lf{border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .2s}
+.wdb{height:6px;border-radius:99px;background:#1a1a2e}
+.lf{border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#0d0d1a;border:1px solid #1a1a2e}
 .lfl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
 .lbw{position:relative}
-.lbi{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:8px;color:#333;font-family:'JetBrains Mono';font-size:22px;font-weight:500;padding:10px 52px 10px 14px;outline:none;transition:border-color .15s}
+.lbi{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:8px;color:#333;font-family:'JetBrains Mono',monospace;font-size:22px;padding:10px 52px 10px 14px;outline:none;-webkit-appearance:none;appearance:none}
 .lbi.hv{color:#dde1f0}
-.lbu{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:#444;pointer-events:none;font-family:'JetBrains Mono'}
-.lta{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:8px;color:#333;font-size:13px;padding:10px 12px;outline:none;resize:none;line-height:1.6}
+.lbu{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:#444;pointer-events:none}
+.lta{width:100%;background:#080810;border:1px solid #1a1a2e;border-radius:8px;color:#333;font-size:13px;padding:10px 12px;outline:none;resize:none;line-height:1.6;font-family:'Syne',Arial,sans-serif}
 .lta.hv{color:#dde1f0}
 .hc{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:12px;padding:14px 16px;margin-bottom:10px}
-.hdate{font-family:'JetBrains Mono';font-size:12px;color:#3b82f6;margin-bottom:2px}
-.hpc{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .hex{background:#0a0a14;border-radius:8px;padding:8px 10px;margin-bottom:5px}
 .hexn{font-size:10px;font-weight:600;margin-bottom:5px}
 .hsr{display:flex;gap:6px;align-items:center;margin-bottom:3px;flex-wrap:wrap}
-.hsl{font-family:'JetBrains Mono';font-size:10px;color:#444;width:20px}
-.hp{font-family:'JetBrains Mono';font-size:11px;border-radius:4px;padding:2px 7px}
+.hsl{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;width:20px}
+.hp{font-family:'JetBrains Mono',monospace;font-size:11px;border-radius:4px;padding:2px 7px}
 .hp.w{background:#1a1a2e;color:#dde1f0}
 .hp.r{background:rgba(239,68,68,.1);color:#ef4444}
 .hp.p{background:rgba(249,115,22,.15);color:#f97316}
@@ -104,257 +96,592 @@ input,textarea,button{font-family:'Syne',sans-serif}
 .pgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .ps{background:#0a0a14;border-radius:8px;padding:8px 10px}
 .psl{font-size:9px;color:#444;margin-bottom:3px}
-.psv{font-family:'JetBrains Mono';font-size:13px;font-weight:600}
+.psv{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+.prog-card{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;padding:16px;margin-bottom:16px}
+.prog-ex{background:#0a0a14;border-radius:10px;padding:12px;margin-bottom:8px}
+.prog-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.prog-stat{background:#080810;border-radius:8px;padding:10px}
+.delta{display:inline-flex;align-items:center;gap:5px;border-radius:5px;padding:4px 9px;margin-top:5px}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
 <script>
-const SESS = {
-  upper1:{name:'Upper 1',short:'U1',color:'#f97316',exercises:[
-    {id:'u1e1',name:'Seated High Incline Barbell / Smith Press',cat:'Chest — Upper',sets:[{n:1,t:'6 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
-    {id:'u1e2',name:'Flat Dumbbell Press',cat:'Chest — Mid',sets:[{n:1,t:'5 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
-    {id:'u1e3',name:'Seated Chest Flys',cat:'Chest — Isolation',sets:[{n:1,t:'10–15 reps'},{n:2,t:'10–15 reps'},{n:3,t:'10–15 reps',rp:1}]},
-    {id:'u1e4',name:'Seated Rows',cat:'Back — Horizontal',sets:[{n:1,t:'8–10 reps'},{n:2,t:'10–12 reps'},{n:3,t:'12–15 reps',rp:1}]},
-    {id:'u1e5',name:'Wide Grip Lat Pulldown',cat:'Back — Vertical',cue:'1 sec hold bottom · 1 sec hold top',sets:[{n:1,t:'5–8 reps'},{n:2,t:'8–10 reps'},{n:3,t:'10–12 reps',rp:1}]},
-    {id:'u1e6',name:'Reverse Fly + Lateral Raise',cat:'Shoulders — Superset',cue:'Superset',sets:[{n:1,t:'10–15 reps each'},{n:2,t:'10–15 reps each'},{n:3,t:'10–15 reps each'}]},
-  ]},
-  upper2:{name:'Upper 2',short:'U2',color:'#3b82f6',exercises:[
-    {id:'u2e1',name:'Cuffed Y Raises',cat:'Shoulders — Rear Delt',cue:'90s rest between sets',sets:[{n:1,t:'12–15 reps'},{n:2,t:'12–15 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'u2e2',name:'Incline Dumbbell Press',cat:'Chest — Upper',sets:[{n:1,t:'5–8 reps'},{n:2,t:'10–12 reps'}]},
-    {id:'u2e3',name:'Flat Bench Press',cat:'Chest — Mid',sets:[{n:1,t:'5–8 reps'},{n:2,t:'10–12 reps'}]},
-    {id:'u2e4',name:'Dips',cat:'Chest / Triceps',cue:'Add weight if possible',sets:[{n:1,t:'5–7 reps'},{n:2,t:'8–10 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'u2e5',name:'V Grip Pulldowns',cat:'Back — Vertical',sets:[{n:1,t:'5–8 reps'},{n:2,t:'8–10 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'u2e6',name:'Bent Over Rows',cat:'Back — Horizontal',sets:[{n:1,t:'5–8 reps'},{n:2,t:'8–10 reps'},{n:3,t:'10–12 reps'}]},
-    {id:'u2e7',name:'Single Arm Cable Row',cat:'Back — Unilateral',sets:[{n:1,t:'10–15 reps'},{n:2,t:'10–15 reps'}]},
-  ]},
-  arms:{name:'Arms',short:'ARM',color:'#a855f7',exercises:[
-    {id:'ae1',name:'Cuffed Y Raises',cat:'Shoulders — SS1A',cue:'Superset with DB Lateral Raises',sets:[{n:1,t:'12–15 reps'},{n:2,t:'12–15 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'ae2',name:'DB Side Lateral Raises',cat:'Shoulders — SS1B',cue:'Superset with Cuffed Y Raises',sets:[{n:1,t:'12–15 reps'},{n:2,t:'12–15 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'ae3',name:'Seated Incline Bicep Curls',cat:'Biceps — SS2A',cue:'Superset with JM Press',sets:[{n:1,t:'8–10 reps'},{n:2,t:'12–15 reps'}]},
-    {id:'ae4',name:'JM Press (Smith Machine)',cat:'Triceps — SS2B',cue:'Superset with Bicep Curls',sets:[{n:1,t:'10–12 reps'},{n:2,t:'12–15 reps'}]},
-    {id:'ae5',name:'Hammer Curls',cat:'Biceps — SS3A',cue:'Superset with Tricep Pushdown',sets:[{n:1,t:'8–10 reps'},{n:2,t:'10–12 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'ae6',name:'Tricep Pushdown',cat:'Triceps — SS3B',cue:'Superset with Hammer Curls',sets:[{n:1,t:'8–10 reps'},{n:2,t:'10–12 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'ae7',name:'Leg Raises',cat:'Core',sets:[{n:1,t:'Max reps'},{n:2,t:'Max reps'},{n:3,t:'Max reps'}]},
-  ]},
-  lower1:{name:'Lower 1',short:'L1',color:'#22c55e',exercises:[
-    {id:'l1e1',name:'Deadlifts',cat:'Posterior Chain',sets:[{n:1,t:'5–8 reps'},{n:2,t:'10–12 reps'}]},
-    {id:'l1e2',name:'Seated Hamstring Curls',cat:'Hamstrings',sets:[{n:1,t:'5–8 reps'},{n:2,t:'8–10 reps'},{n:3,t:'10–12 reps'}]},
-    {id:'l1e3',name:'Quad Extension',cat:'Quads — Isolation',sets:[{n:1,t:'12–15 reps',rp:1},{n:2,t:'12–15 reps',rp:1},{n:3,t:'12–15 reps',rp:1}]},
-    {id:'l1e4',name:'Hack Squat',cat:'Quads',sets:[{n:1,t:'5–8 reps'},{n:2,t:'8–10 reps'},{n:3,t:'10–12 reps'}]},
-    {id:'l1e5',name:'Adductor Machine',cat:'Adductors',sets:[{n:1,t:'12–15 reps',rp:1},{n:2,t:'12–15 reps',rp:1},{n:3,t:'12–15 reps',rp:1}]},
-    {id:'l1e6',name:'Standing Calf Raises',cat:'Calves',sets:[{n:1,t:'10–15 reps'},{n:2,t:'10–15 reps'},{n:3,t:'10–15 reps'}]},
-    {id:'l1e7',name:'Seated Calf Raise',cat:'Calves — Soleus',sets:[{n:1,t:'10–15 reps'},{n:2,t:'10–15 reps'},{n:3,t:'10–15 reps'}]},
-    {id:'l1e8',name:'Leg Raises',cat:'Core',cue:'60s rest between sets',sets:[{n:1,t:'Max reps'},{n:2,t:'Max reps'},{n:3,t:'Max reps'}]},
-  ]},
-  lower2:{name:'Lower 2',short:'L2',color:'#06b6d4',exercises:[
-    {id:'l2e1',name:'Squats',cat:'Quads / Glutes',sets:[{n:1,t:'5 reps'},{n:2,t:'8–10 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'l2e2',name:'Lying Leg Curls',cat:'Hamstrings',sets:[{n:1,t:'8 reps'},{n:2,t:'10–12 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'l2e3',name:'Stiff Leg Deadlift',cat:'Posterior Chain',sets:[{n:1,t:'5 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
-    {id:'l2e4',name:'Single Leg Extensions',cat:'Quads — Isolation',cue:'10s rest-pause',sets:[{n:1,t:'10–15 reps',rp:1},{n:2,t:'10–15 reps',rp:1},{n:3,t:'10–15 reps',rp:1}]},
-    {id:'l2e5',name:'Leg Press',cat:'Quads / Glutes',sets:[{n:1,t:'8–10 reps'},{n:2,t:'12–15 reps'}]},
-    {id:'l2e6',name:'Adductor Machine',cat:'Adductors',sets:[{n:1,t:'12–15 reps'},{n:2,t:'12–15 reps'},{n:3,t:'12–15 reps'}]},
-    {id:'l2e7',name:'Standing Calf Raises',cat:'Calves',sets:[{n:1,t:'15–20 reps'},{n:2,t:'15–20 reps'},{n:3,t:'15–20 reps'}]},
-  ]},
+var SESS = {
+  upper1: {
+    name: 'Upper 1', short: 'U1', color: '#f97316',
+    exercises: [
+      {id:'u1e1', name:'Seated High Incline Barbell / Smith Press', cat:'Chest - Upper', sets:[{n:1,t:'6 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
+      {id:'u1e2', name:'Flat Dumbbell Press', cat:'Chest - Mid', sets:[{n:1,t:'5 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
+      {id:'u1e3', name:'Seated Chest Flys', cat:'Chest - Isolation', sets:[{n:1,t:'10-15 reps'},{n:2,t:'10-15 reps'},{n:3,t:'10-15 reps',rp:true}]},
+      {id:'u1e4', name:'Seated Rows', cat:'Back - Horizontal', sets:[{n:1,t:'8-10 reps'},{n:2,t:'10-12 reps'},{n:3,t:'12-15 reps',rp:true}]},
+      {id:'u1e5', name:'Wide Grip Lat Pulldown', cat:'Back - Vertical', cue:'1 sec hold bottom, 1 sec hold top', sets:[{n:1,t:'5-8 reps'},{n:2,t:'8-10 reps'},{n:3,t:'10-12 reps',rp:true}]},
+      {id:'u1e6', name:'Reverse Fly + Lateral Raise', cat:'Shoulders - Superset', cue:'Superset', sets:[{n:1,t:'10-15 reps each'},{n:2,t:'10-15 reps each'},{n:3,t:'10-15 reps each'}]}
+    ]
+  },
+  upper2: {
+    name: 'Upper 2', short: 'U2', color: '#3b82f6',
+    exercises: [
+      {id:'u2e1', name:'Cuffed Y Raises', cat:'Shoulders - Rear Delt', cue:'90s rest between sets', sets:[{n:1,t:'12-15 reps'},{n:2,t:'12-15 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'u2e2', name:'Incline Dumbbell Press', cat:'Chest - Upper', sets:[{n:1,t:'5-8 reps'},{n:2,t:'10-12 reps'}]},
+      {id:'u2e3', name:'Flat Bench Press', cat:'Chest - Mid', sets:[{n:1,t:'5-8 reps'},{n:2,t:'10-12 reps'}]},
+      {id:'u2e4', name:'Dips', cat:'Chest / Triceps', cue:'Add weight if possible', sets:[{n:1,t:'5-7 reps'},{n:2,t:'8-10 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'u2e5', name:'V Grip Pulldowns', cat:'Back - Vertical', sets:[{n:1,t:'5-8 reps'},{n:2,t:'8-10 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'u2e6', name:'Bent Over Rows', cat:'Back - Horizontal', sets:[{n:1,t:'5-8 reps'},{n:2,t:'8-10 reps'},{n:3,t:'10-12 reps'}]},
+      {id:'u2e7', name:'Single Arm Cable Row', cat:'Back - Unilateral', sets:[{n:1,t:'10-15 reps'},{n:2,t:'10-15 reps'}]}
+    ]
+  },
+  arms: {
+    name: 'Arms', short: 'ARM', color: '#a855f7',
+    exercises: [
+      {id:'ae1', name:'Cuffed Y Raises', cat:'Shoulders - SS1A', cue:'Superset with DB Lateral Raises', sets:[{n:1,t:'12-15 reps'},{n:2,t:'12-15 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'ae2', name:'DB Side Lateral Raises', cat:'Shoulders - SS1B', cue:'Superset with Cuffed Y Raises', sets:[{n:1,t:'12-15 reps'},{n:2,t:'12-15 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'ae3', name:'Seated Incline Bicep Curls', cat:'Biceps - SS2A', cue:'Superset with JM Press', sets:[{n:1,t:'8-10 reps'},{n:2,t:'12-15 reps'}]},
+      {id:'ae4', name:'JM Press (Smith Machine)', cat:'Triceps - SS2B', cue:'Superset with Bicep Curls', sets:[{n:1,t:'10-12 reps'},{n:2,t:'12-15 reps'}]},
+      {id:'ae5', name:'Hammer Curls', cat:'Biceps - SS3A', cue:'Superset with Tricep Pushdown', sets:[{n:1,t:'8-10 reps'},{n:2,t:'10-12 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'ae6', name:'Tricep Pushdown', cat:'Triceps - SS3B', cue:'Superset with Hammer Curls', sets:[{n:1,t:'8-10 reps'},{n:2,t:'10-12 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'ae7', name:'Leg Raises', cat:'Core', sets:[{n:1,t:'Max reps'},{n:2,t:'Max reps'},{n:3,t:'Max reps'}]}
+    ]
+  },
+  lower1: {
+    name: 'Lower 1', short: 'L1', color: '#22c55e',
+    exercises: [
+      {id:'l1e1', name:'Deadlifts', cat:'Posterior Chain', sets:[{n:1,t:'5-8 reps'},{n:2,t:'10-12 reps'}]},
+      {id:'l1e2', name:'Seated Hamstring Curls', cat:'Hamstrings', sets:[{n:1,t:'5-8 reps'},{n:2,t:'8-10 reps'},{n:3,t:'10-12 reps'}]},
+      {id:'l1e3', name:'Quad Extension', cat:'Quads - Isolation', sets:[{n:1,t:'12-15 reps',rp:true},{n:2,t:'12-15 reps',rp:true},{n:3,t:'12-15 reps',rp:true}]},
+      {id:'l1e4', name:'Hack Squat', cat:'Quads', sets:[{n:1,t:'5-8 reps'},{n:2,t:'8-10 reps'},{n:3,t:'10-12 reps'}]},
+      {id:'l1e5', name:'Adductor Machine', cat:'Adductors', sets:[{n:1,t:'12-15 reps',rp:true},{n:2,t:'12-15 reps',rp:true},{n:3,t:'12-15 reps',rp:true}]},
+      {id:'l1e6', name:'Standing Calf Raises', cat:'Calves', sets:[{n:1,t:'10-15 reps'},{n:2,t:'10-15 reps'},{n:3,t:'10-15 reps'}]},
+      {id:'l1e7', name:'Seated Calf Raise', cat:'Calves - Soleus', sets:[{n:1,t:'10-15 reps'},{n:2,t:'10-15 reps'},{n:3,t:'10-15 reps'}]},
+      {id:'l1e8', name:'Leg Raises', cat:'Core', cue:'60s rest between sets', sets:[{n:1,t:'Max reps'},{n:2,t:'Max reps'},{n:3,t:'Max reps'}]}
+    ]
+  },
+  lower2: {
+    name: 'Lower 2', short: 'L2', color: '#06b6d4',
+    exercises: [
+      {id:'l2e1', name:'Squats', cat:'Quads / Glutes', sets:[{n:1,t:'5 reps'},{n:2,t:'8-10 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'l2e2', name:'Lying Leg Curls', cat:'Hamstrings', sets:[{n:1,t:'8 reps'},{n:2,t:'10-12 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'l2e3', name:'Stiff Leg Deadlift', cat:'Posterior Chain', sets:[{n:1,t:'5 reps'},{n:2,t:'8 reps'},{n:3,t:'12 reps'}]},
+      {id:'l2e4', name:'Single Leg Extensions', cat:'Quads - Isolation', cue:'10s rest-pause', sets:[{n:1,t:'10-15 reps',rp:true},{n:2,t:'10-15 reps',rp:true},{n:3,t:'10-15 reps',rp:true}]},
+      {id:'l2e5', name:'Leg Press', cat:'Quads / Glutes', sets:[{n:1,t:'8-10 reps'},{n:2,t:'12-15 reps'}]},
+      {id:'l2e6', name:'Adductor Machine', cat:'Adductors', sets:[{n:1,t:'12-15 reps'},{n:2,t:'12-15 reps'},{n:3,t:'12-15 reps'}]},
+      {id:'l2e7', name:'Standing Calf Raises', cat:'Calves', sets:[{n:1,t:'15-20 reps'},{n:2,t:'15-20 reps'},{n:3,t:'15-20 reps'}]}
+    ]
+  }
 };
 
-const SK = Object.keys(SESS);
-const KEY = ‘wt_v2’;
-let pg = ‘upper1’, openMap = {}, data = {sessions:{},daily:{}};
+var SK = [‘upper1’,‘upper2’,‘arms’,‘lower1’,‘lower2’];
+var STORAGE_KEY = ‘wt_v3’;
+var pg = ‘upper1’;
+var openMap = {};
+var appData = {sessions:{}, daily:{}};
 
-function load(){try{const s=localStorage.getItem(KEY);if(s)data=JSON.parse(s);}catch{}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch{}}
-const today=()=>new Date().toISOString().slice(0,10);
-function gS(sk,d,eid,si,f){return data.sessions?.[sk]?.[d]?.[eid+’:’+si]?.[f]??’’;}
-function pS(sk,d,eid,si,f,v){const s=data.sessions;if(!s[sk])s[sk]={};if(!s[sk][d])s[sk][d]={};const k=eid+’:’+si;if(!s[sk][d][k])s[sk][d][k]={};s[sk][d][k][f]=v;save();}
-function gD(d,f){return data.daily?.[d]?.[f]??’’;}
-function pD(d,f,v){if(!data.daily[d])data.daily[d]={};data.daily[d][f]=v;save();}
-function totalS(sk){return SESS[sk].exercises.reduce((a,e)=>a+e.sets.length,0);}
-function doneS(sk,d){let c=0;for(const e of SESS[sk].exercises)for(let i=0;i<e.sets.length;i++)if(gS(sk,d,e.id,i,‘done’)===‘1’)c++;return c;}
-function wkDates(ds){const d=new Date(ds),dy=d.getDay(),m=new Date(d);m.setDate(d.getDate()-((dy+6)%7));return Array.from({length:7},(_,i)=>{const dd=new Date(m);dd.setDate(m.getDate()+i);return dd.toISOString().slice(0,10);});}
-function wkAvg(f){const ds=wkDates(today()),vs=ds.map(d=>parseFloat(gD(d,f))).filter(n=>n>0&&!isNaN(n));if(!vs.length)return null;return(vs.reduce((a,b)=>a+b,0)/vs.length).toFixed(1);}
-function dLogged(){return wkDates(today()).filter(d=>data.daily?.[d]&&(data.daily[d].bodyweight||data.daily[d].calories||data.daily[d].steps)).length;}
-
-function render(){
-document.getElementById(‘app’).innerHTML=renderHd()+`<div class="ct">`+renderPg()+`</div>`+renderNav();
-bind();
+function loadData() {
+try {
+var s = localStorage.getItem(STORAGE_KEY);
+if (s) { appData = JSON.parse(s); }
+} catch(e) {}
 }
 
-function renderHd(){
-const isSk=SK.includes(pg);
-const s=isSk?SESS[pg]:null;
-const t=today();
-const tot=isSk?totalS(pg):0,dn=isSk?doneS(pg,t):0,pct=tot?Math.round(dn/tot*100):0;
-const fc=pct===100?’#22c55e’:(s?.color||’#3b82f6’);
-return `<div class="hd"> <div class="hl">${isSk?s.name:(pg==='daily'?'Daily Log':'Session History')}</div> <div class="hr"><div class="ht">Training Tracker</div><div class="hdate">${t}</div></div> ${isSk?`<div class="pb"><div class="pbr"><span class="pbl">${dn} of ${tot} sets</span><span class="pbp" style="color:${pct===100?'#22c55e':'#555'}">${pct}%</span></div>
-<div class="pbt"><div class="pbf" style="width:${pct}%;background:${pct===100?'#22c55e':`linear-gradient(90deg,${fc},${fc}99)`}"></div></div></div>`:’’}
-
-  </div>`;
+function saveData() {
+try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); } catch(e) {}
 }
 
-function renderNav(){
-const items=[{id:‘upper1’,l:‘U1’},{id:‘upper2’,l:‘U2’},{id:‘arms’,l:‘ARM’},{id:‘lower1’,l:‘L1’},{id:‘lower2’,l:‘L2’},{id:‘daily’,l:‘LOG’},{id:‘history’,l:‘HIST’}];
-return `<div class="nav">${items.map(it=>`<button class="nb ${pg===it.id?'on':''}" data-nav="${it.id}"><div class="ndot" style="${pg===it.id&&SESS[it.id]?`background:${SESS[it.id].color}`:''}"></div>${it.l}</button>`).join('')}</div>`;
+function getToday() {
+return new Date().toISOString().slice(0, 10);
 }
 
-function renderPg(){
-if(SK.includes(pg))return renderSess();
-if(pg===‘daily’)return renderDaily();
-if(pg===‘history’)return renderHistory();
+function gS(sk, d, eid, si, f) {
+try { return appData.sessions[sk][d][eid + ‘:’ + si][f] || ‘’; } catch(e) { return ‘’; }
+}
+
+function pS(sk, d, eid, si, f, v) {
+if (!appData.sessions[sk]) appData.sessions[sk] = {};
+if (!appData.sessions[sk][d]) appData.sessions[sk][d] = {};
+var k = eid + ‘:’ + si;
+if (!appData.sessions[sk][d][k]) appData.sessions[sk][d][k] = {};
+appData.sessions[sk][d][k][f] = v;
+saveData();
+}
+
+function gD(d, f) {
+try { return appData.daily[d][f] || ‘’; } catch(e) { return ‘’; }
+}
+
+function pD(d, f, v) {
+if (!appData.daily[d]) appData.daily[d] = {};
+appData.daily[d][f] = v;
+saveData();
+}
+
+function totalSets(sk) {
+var t = 0;
+var exs = SESS[sk].exercises;
+for (var i = 0; i < exs.length; i++) t += exs[i].sets.length;
+return t;
+}
+
+function doneSets(sk, d) {
+var c = 0;
+var exs = SESS[sk].exercises;
+for (var i = 0; i < exs.length; i++) {
+for (var j = 0; j < exs[i].sets.length; j++) {
+if (gS(sk, d, exs[i].id, j, ‘done’) === ‘1’) c++;
+}
+}
+return c;
+}
+
+function getWeekDates(dateStr) {
+var d = new Date(dateStr);
+var day = d.getDay();
+var mon = new Date(d);
+mon.setDate(d.getDate() - ((day + 6) % 7));
+var dates = [];
+for (var i = 0; i < 7; i++) {
+var dd = new Date(mon);
+dd.setDate(mon.getDate() + i);
+dates.push(dd.toISOString().slice(0, 10));
+}
+return dates;
+}
+
+function arrAvg(arr) {
+if (!arr.length) return null;
+var sum = 0;
+for (var i = 0; i < arr.length; i++) sum += arr[i];
+return (sum / arr.length).toFixed(1);
+}
+
+function weekAvg(field) {
+var dates = getWeekDates(getToday());
+var vals = [];
+for (var i = 0; i < dates.length; i++) {
+var v = parseFloat(gD(dates[i], field));
+if (v > 0 && !isNaN(v)) vals.push(v);
+}
+return arrAvg(vals);
+}
+
+function daysLogged() {
+var dates = getWeekDates(getToday());
+var c = 0;
+for (var i = 0; i < dates.length; i++) {
+var e = appData.daily[dates[i]];
+if (e && (e.bodyweight || e.calories || e.steps)) c++;
+}
+return c;
+}
+
+function renderNav() {
+var items = [
+{id:‘upper1’,l:‘U1’}, {id:‘upper2’,l:‘U2’}, {id:‘arms’,l:‘ARM’},
+{id:‘lower1’,l:‘L1’}, {id:‘lower2’,l:‘L2’}, {id:‘daily’,l:‘LOG’}, {id:‘history’,l:‘HIST’}
+];
+var html = ‘’;
+for (var i = 0; i < items.length; i++) {
+var it = items[i];
+var on = pg === it.id ? ’ on’ : ‘’;
+var dotStyle = (pg === it.id && SESS[it.id]) ? ‘background:’ + SESS[it.id].color : ‘’;
+html += ‘<button class="nb' + on + '" data-nav="' + it.id + '"><div class="ndot" style="' + dotStyle + '"></div>’ + it.l + ‘</button>’;
+}
+return ‘<div class="nav">’ + html + ‘</div>’;
+}
+
+function renderHeader() {
+var isSk = SK.indexOf(pg) !== -1;
+var s = isSk ? SESS[pg] : null;
+var t = getToday();
+var tot = isSk ? totalSets(pg) : 0;
+var dn = isSk ? doneSets(pg, t) : 0;
+var pct = tot ? Math.round(dn / tot * 100) : 0;
+var fc = pct === 100 ? ‘#22c55e’ : (s ? s.color : ‘#3b82f6’);
+var label = isSk ? s.name : (pg === ‘daily’ ? ‘Daily Log’ : ‘Session History’);
+var pctColor = pct === 100 ? ‘#22c55e’ : ‘#555’;
+var fillBg = pct === 100 ? ‘#22c55e’ : ‘linear-gradient(90deg,’ + fc + ‘,’ + fc + ‘99)’;
+var progHtml = isSk ? (’<div class="pbrow"><span style="font-size:11px;color:#555">’ + dn + ’ of ’ + tot + ’ sets</span><span style="font-size:11px;font-weight:600;color:' + pctColor + '">’ + pct + ‘%</span></div><div class="pbt"><div class="pbf" style="width:' + pct + '%;background:' + fillBg + '"></div></div>’) : ‘’;
+return ‘<div class="hd"><div class="hl">’ + label + ‘</div><div class="hr"><div class="ht">Training Tracker</div><div class="hdate">’ + t + ‘</div></div>’ + progHtml + ‘</div>’;
+}
+
+function renderSet(s, idx, ex, t, isSS) {
+var dn = gS(pg, t, ex.id, idx, ‘done’) === ‘1’;
+var wt = gS(pg, t, ex.id, idx, ‘wt’);
+var rps = gS(pg, t, ex.id, idx, ‘reps’);
+var rpR = gS(pg, t, ex.id, idx, ‘rpReps’);
+
+var rowCls = ‘sr’ + (dn ? ’ done-set’ : ‘’);
+var sgCls = ‘sg’ + (dn ? ’ done-txt’ : ‘’);
+var cbCls = ‘cb’ + (dn ? ’ done-cb’ : ‘’);
+var tick = dn ? ‘<span class="cbtick">✓</span>’ : ‘’;
+var rpBadge = s.rp ? ‘<span class="rpb">RP</span>’ : ‘’;
+var ssBadge = isSS ? ‘<span class="ssb">SS</span>’ : ‘’;
+
+var wtBorder = wt ? ‘#3b82f688’ : ‘#1a1a2e’;
+var wtCls = ‘ni’ + (wt ? ’ hv’ : ‘’);
+var wtInput = ‘<div class="ig"><label style="color:#3b82f6">Weight</label><div class="iw"><input type="number" inputmode="decimal" id="i-' + ex.id + '-' + idx + '-wt" class="' + wtCls + '" placeholder="0" value="' + wt + '" style="border-color:' + wtBorder + '"><span class="iu">kg</span></div></div>’;
+
+var repsHtml;
+if (dn) {
+var rpsBorder = rps ? ‘#ef444488’ : ‘#1a1a2e’;
+var rpsCls = ‘ni’ + (rps ? ’ hv’ : ‘’);
+repsHtml = ‘<div class="ig"><label style="color:#ef4444">Reps achieved</label><div class="iw"><input type="number" inputmode="numeric" id="i-' + ex.id + '-' + idx + '-reps" class="' + rpsCls + '" placeholder="..." value="' + rps + '" style="border-color:' + rpsBorder + '"><span class="iu">reps</span></div></div>’;
+} else {
+repsHtml = ‘<div class="ig"><label style="color:#333">Reps achieved</label><div class="locked">Tick to log</div></div>’;
+}
+
+var rpRepsHtml = ‘’;
+if (dn && s.rp) {
+var rpRBorder = rpR ? ‘#f9731688’ : ‘#1a1a2e’;
+var rpRCls = ‘ni’ + (rpR ? ’ hv’ : ‘’);
+rpRepsHtml = ‘<div style="margin-top:6px"><div class="si2"><div class="ig"><label style="color:#f97316">RP reps achieved</label><div class="iw"><input type="number" inputmode="numeric" id="i-' + ex.id + '-' + idx + '-rpReps" class="' + rpRCls + '" placeholder="..." value="' + rpR + '" style="border-color:' + rpRBorder + '"><span class="iu">reps</span></div></div></div></div>’;
+}
+
+return ’<div class="' + rowCls + '" id="sr-' + ex.id + '-' + idx + '"><div class="st"><span class="sn">SET ’ + s.n + ‘</span><span class="' + sgCls + '">’ + s.t + ‘</span>’ + rpBadge + ssBadge + ‘<div class="' + cbCls + '" data-chk="' + ex.id + ':' + idx + '">’ + tick + ‘</div></div><div class="si2">’ + wtInput + repsHtml + ‘</div>’ + rpRepsHtml + ‘</div>’;
+}
+
+function renderExercise(sess, ex, t) {
+var isOpen = openMap[ex.id] !== false;
+var allDone = true;
+for (var i = 0; i < ex.sets.length; i++) {
+if (gS(pg, t, ex.id, i, ‘done’) !== ‘1’) { allDone = false; break; }
+}
+var isSS = ex.cue && ex.cue.indexOf(‘Superset’) !== -1;
+var cardCls = ‘ec’ + (allDone ? ’ done-card’ : ‘’);
+var doneBadge = allDone ? ‘<span class="edb">DONE</span>’ : ‘’;
+var arrow = isOpen ? ‘⌄’ : ‘⌃’;
+var cueHtml = ex.cue ? ‘<div class="ecue">’ + ex.cue + ‘</div>’ : ‘’;
+var setsHtml = ‘’;
+if (isOpen) {
+for (var i = 0; i < ex.sets.length; i++) {
+setsHtml += renderSet(ex.sets[i], i, ex, t, isSS);
+}
+setsHtml = ‘<div class="es">’ + setsHtml + ‘</div>’;
+}
+return ‘<div class="' + cardCls + '" id="ec-' + ex.id + '"><div class="eh" data-tog="' + ex.id + '"><div class="ei"><div class="ecr"><span class="edot" style="background:' + sess.color + '"></span><span class="ecat" style="color:' + sess.color + '">’ + ex.cat + ‘</span></div><div class="ename">’ + ex.name + ‘</div>’ + cueHtml + ‘</div><div class="eright">’ + doneBadge + ‘<span>’ + arrow + ‘</span></div></div>’ + setsHtml + ‘</div>’;
+}
+
+function renderClientCard() {
+var items = [[‘Bodyweight’,‘91 kg’],[‘Daily Calories’,‘2,500 kcal’],[‘Protein Target’,‘182g / day’],[‘Goal’,‘Recomp’]];
+var inner = ‘’;
+for (var i = 0; i < items.length; i++) {
+inner += ‘<div class="cs"><div class="csl">’ + items[i][0] + ‘</div><div class="csv">’ + items[i][1] + ‘</div></div>’;
+}
+return ‘<div class="cc"><div class="sl">Client Overview</div><div class="cg">’ + inner + ‘</div></div>’;
+}
+
+function renderSession() {
+var sess = SESS[pg];
+var t = getToday();
+var html = ‘’;
+for (var i = 0; i < sess.exercises.length; i++) {
+html += renderExercise(sess, sess.exercises[i], t);
+}
+return html + renderClientCard();
+}
+
+function renderDaily() {
+var t = getToday();
+var wd = getWeekDates(t);
+var DAYS = [‘M’,‘T’,‘W’,‘T’,‘F’,‘S’,‘S’];
+var aW = weekAvg(‘bodyweight’);
+var aC = weekAvg(‘calories’);
+var aS = weekAvg(‘steps’);
+var dl = daysLogged();
+
+var wsHtml = ‘’;
+for (var i = 0; i < wd.length; i++) {
+var de = appData.daily[wd[i]];
+var hasData = de && (de.bodyweight || de.calories || de.steps);
+var isT = wd[i] === t;
+var bc = hasData ? (isT ? ‘#3b82f6’ : ‘#22c55e’) : ‘#1a1a2e’;
+var lc = isT ? ‘#3b82f6’ : ‘#333’;
+var fw = isT ? ‘700’ : ‘400’;
+wsHtml += ‘<div class="wd"><div class="wdl" style="color:' + lc + ';font-weight:' + fw + '">’ + DAYS[i] + ‘</div><div class="wdb" style="background:' + bc + '"></div></div>’;
+}
+
+var avgItems = [
+[‘Avg Weight’, aW, ‘kg’, ‘#22c55e’],
+[‘Avg Calories’, aC, ‘kcal’, ‘#f97316’],
+[‘Avg Steps’, aS ? String(Math.round(parseFloat(aS))) : null, ‘’, ‘#3b82f6’]
+];
+var avgHtml = ‘’;
+for (var i = 0; i < avgItems.length; i++) {
+var av = avgItems[i];
+var valColor = av[1] ? av[3] : ‘#2a2a3e’;
+var unitHtml = (av[1] && av[2]) ? ‘<div class="agu">’ + av[2] + ‘</div>’ : ‘’;
+avgHtml += ‘<div class="ags"><div class="agl">’ + av[0] + ‘</div><div class="agv" style="color:' + valColor + '">’ + (av[1] || ‘–’) + ‘</div>’ + unitHtml + ‘</div>’;
+}
+
+var fields = [
+{f:‘bodyweight’, l:‘Bodyweight’, u:‘kg’, c:’#22c55e’, ph:‘91.0’},
+{f:‘calories’, l:‘Calories’, u:‘kcal’, c:’#f97316’, ph:‘2500’},
+{f:‘steps’, l:‘Steps’, u:‘steps’, c:’#3b82f6’, ph:‘10000’}
+];
+var fieldsHtml = ‘’;
+for (var i = 0; i < fields.length; i++) {
+var fi = fields[i];
+var fv = gD(t, fi.f);
+var fc2 = fv ? fi.c + ‘44’ : ‘#1a1a2e’;
+var fbc = fv ? fi.c + ‘66’ : ‘#1a1a2e’;
+var fcls = ‘lbi’ + (fv ? ’ hv’ : ‘’);
+fieldsHtml += ‘<div class="lf" style="border-color:' + fc2 + '"><div class="lfl" style="color:' + fi.c + '">’ + fi.l + ‘</div><div class="lbw"><input type="number" inputmode="decimal" id="dl-' + fi.f + '" class="' + fcls + '" placeholder="' + fi.ph + '" value="' + (fv || '') + '" data-df="' + fi.f + '" style="border-color:' + fbc + '"><span class="lbu">’ + fi.u + ‘</span></div></div>’;
+}
+
+var nv = gD(t, ‘notes’);
+var ntcls = ‘lta’ + (nv ? ’ hv’ : ‘’);
+
+var pastDates = Object.keys(appData.daily).sort().reverse();
+var pastHtml = ‘’;
+var pastCount = 0;
+for (var i = 0; i < pastDates.length; i++) {
+if (pastCount >= 20) break;
+var pd = pastDates[i];
+if (pd === t) continue;
+var pe = appData.daily[pd];
+if (!pe || (!pe.bodyweight && !pe.calories && !pe.steps && !pe.notes)) continue;
+pastCount++;
+var stp = pe.steps ? parseInt(pe.steps, 10).toLocaleString() : null;
+var pStats = [
+[‘Weight’, pe.bodyweight, ‘kg’, ‘#22c55e’],
+[‘Calories’, pe.calories, ‘kcal’, ‘#f97316’],
+[‘Steps’, stp, ‘’, ‘#3b82f6’]
+];
+var pGrid = ‘’;
+for (var j = 0; j < pStats.length; j++) {
+var ps2 = pStats[j];
+var pvc = ps2[1] ? ps2[3] : ‘#2a2a3e’;
+var pvt = ps2[1] ? (ps2[1] + (ps2[2] ? ’ ’ + ps2[2] : ‘’)) : ‘–’;
+pGrid += ‘<div class="ps"><div class="psl">’ + ps2[0] + ‘</div><div class="psv" style="color:' + pvc + '">’ + pvt + ‘</div></div>’;
+}
+var pNotes = pe.notes ? ‘<div style="font-size:12px;color:#555;border-top:1px solid #1a1a2e;margin-top:10px;padding-top:8px;line-height:1.6">’ + pe.notes + ‘</div>’ : ‘’;
+pastHtml += ‘<div class="pcard"><div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#3b82f6;margin-bottom:10px">’ + pd + ‘</div><div class="pgrid">’ + pGrid + ‘</div>’ + pNotes + ‘</div>’;
+}
+var pastSection = pastHtml ? ‘<div class="sl" style="margin-top:22px">Previous Entries</div>’ + pastHtml : ‘’;
+
+return ‘<div class="dac"><div class="avgh"><div class="sl" style="margin:0">This Week's Averages</div><span style="font-size:10px;color:#444;font-family:JetBrains Mono,monospace">’ + dl + ‘/7 days</span></div><div class="avg-g">’ + avgHtml + ‘</div><div class="ws">’ + wsHtml + ‘</div></div><div class="sl">Log Today</div>’ + fieldsHtml + ‘<div class="lf"><div class="lfl" style="color:#555">Notes</div><textarea id="dl-notes" class="' + ntcls + '" rows="3" placeholder="Energy, sleep, hunger..." data-df="notes">’ + nv + ‘</textarea></div>’ + pastSection;
+}
+
+function getWeekStats(dates) {
+var stats = {};
+for (var si = 0; si < SK.length; si++) {
+var sk = SK[si];
+var exs = SESS[sk].exercises;
+for (var ei = 0; ei < exs.length; ei++) {
+var ex = exs[ei];
+for (var di = 0; di < dates.length; di++) {
+var d = dates[di];
+for (var i = 0; i < ex.sets.length; i++) {
+if (gS(sk, d, ex.id, i, ‘done’) === ‘1’) {
+if (!stats[ex.id]) stats[ex.id] = {name: ex.name, color: SESS[sk].color, wts: [], rps: []};
+var wt = parseFloat(gS(sk, d, ex.id, i, ‘wt’));
+var rp = parseFloat(gS(sk, d, ex.id, i, ‘reps’));
+if (wt > 0 && !isNaN(wt)) stats[ex.id].wts.push(wt);
+if (rp > 0 && !isNaN(rp)) stats[ex.id].rps.push(rp);
+}
+}
+}
+}
+}
+return stats;
+}
+
+function renderDelta(d, unit) {
+if (d === null) return ‘<div style="font-size:9px;color:#333;margin-top:5px">No prev data</div>’;
+if (d === 0) return ‘<div class="delta" style="background:rgba(255,255,255,.04);margin-top:5px"><span style="font-size:11px;color:#555">No change</span></div>’;
+var pos = d > 0;
+var bg = pos ? ‘rgba(34,197,94,.12)’ : ‘rgba(239,68,68,.12)’;
+var col = pos ? ‘#22c55e’ : ‘#ef4444’;
+var val = (pos ? ‘+’ : ‘’) + d.toFixed(1) + unit;
+return ‘<div class="delta" style="background:' + bg + ';margin-top:5px"><span style="font-size:13px;font-weight:700;color:' + col + ';font-family:JetBrains Mono,monospace">’ + val + ‘</span></div>’;
+}
+
+function renderProgress() {
+var t = getToday();
+var thisWk = getWeekDates(t);
+var prevStart = new Date(thisWk[0]);
+prevStart.setDate(prevStart.getDate() - 7);
+var lastWk = getWeekDates(prevStart.toISOString().slice(0, 10));
+var cur = getWeekStats(thisWk);
+var prev = getWeekStats(lastWk);
+
+var allIds = [];
+var seen = {};
+var k;
+for (k in cur) { if (!seen[k]) { seen[k] = true; allIds.push(k); } }
+for (k in prev) { if (!seen[k]) { seen[k] = true; allIds.push(k); } }
+
+if (!allIds.length) {
+return ‘<div class="prog-card"><div style="text-align:center"><div class="sl" style="margin-bottom:8px">Week on Week Progress</div><div style="font-size:12px;color:#333;line-height:1.8">Log at least one session<br>to start tracking progress.</div></div></div>’;
+}
+
+var rows = ‘’;
+for (var i = 0; i < allIds.length; i++) {
+var id = allIds[i];
+var c = cur[id] || {wts:[], rps:[]};
+var p = prev[id] || {wts:[], rps:[]};
+var cW = arrAvg(c.wts);
+var pW = arrAvg(p.wts);
+var cR = arrAvg(c.rps);
+var pR = arrAvg(p.rps);
+var info = cur[id] || prev[id];
+var dW = (cW && pW) ? parseFloat(cW) - parseFloat(pW) : null;
+var dR = (cR && pR) ? parseFloat(cR) - parseFloat(pR) : null;
+var wStat = ‘<div class="prog-stat"><div style="font-size:9px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Avg Weight</div><div style="font-family:JetBrains Mono,monospace;font-size:17px;font-weight:700;color:' + (cW ? '#dde1f0' : '#2a2a3e') + '">’ + (cW ? cW + ‘kg’ : ‘–’) + ’</div><div style="font-size:9px;color:#555;margin-top:3px">prev: ’ + (pW ? pW + ‘kg’ : ‘–’) + ‘</div>’ + renderDelta(dW, ‘kg’) + ‘</div>’;
+var rStat = ‘<div class="prog-stat"><div style="font-size:9px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Avg Reps</div><div style="font-family:JetBrains Mono,monospace;font-size:17px;font-weight:700;color:' + (cR ? '#dde1f0' : '#2a2a3e') + '">’ + (cR || ‘–’) + ‘</div><div style="font-size:9px;color:#555;margin-top:3px">prev: ’ + (pR || ‘–’) + ‘</div>’ + renderDelta(dR, ’ reps’) + ‘</div>’;
+rows += ‘<div class="prog-ex"><div style="font-size:10px;color:' + info.color + ';font-weight:700;letter-spacing:.08em;margin-bottom:10px">’ + info.name + ‘</div><div class="prog-row">’ + wStat + rStat + ‘</div></div>’;
+}
+
+return ‘<div class="prog-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div class="sl" style="margin:0">Week on Week Progress</div><div style="font-size:9px;font-family:JetBrains Mono,monospace;color:#444">’ + thisWk[0] + ’ vs ’ + lastWk[0] + ‘</div></div>’ + rows + ‘</div>’;
+}
+
+function renderHistory() {
+var allEntries = [];
+for (var si = 0; si < SK.length; si++) {
+var sk = SK[si];
+var sessDates = Object.keys(appData.sessions[sk] || {});
+for (var di = 0; di < sessDates.length; di++) {
+allEntries.push({d: sessDates[di], sk: sk});
+}
+}
+allEntries.sort(function(a, b) { return a.d < b.d ? 1 : a.d > b.d ? -1 : 0; });
+
+var byDate = {};
+for (var i = 0; i < allEntries.length; i++) {
+var e = allEntries[i];
+if (!byDate[e.d]) byDate[e.d] = [];
+byDate[e.d].push(e.sk);
+}
+var dates = Object.keys(byDate).sort().reverse();
+
+var sessLog = ‘’;
+if (!dates.length) {
+sessLog = ‘<div class="emp">No sessions logged yet.<br>Complete your first session<br>to see history here.</div>’;
+} else {
+for (var di = 0; di < dates.length; di++) {
+var d = dates[di];
+var blocks = ‘’;
+for (var bi = 0; bi < byDate[d].length; bi++) {
+var sk = byDate[d][bi];
+var s = SESS[sk];
+var tot = totalSets(sk);
+var dn = doneSets(sk, d);
+var pct = Math.round(dn / tot * 100);
+var pctColor = pct === 100 ? ‘#22c55e’ : s.color;
+var pctBg = pct === 100 ? ‘rgba(34,197,94,.1)’ : ‘rgba(59,130,246,.1)’;
+var exBlocks = ‘’;
+for (var ei = 0; ei < s.exercises.length; ei++) {
+var ex = s.exercises[ei];
+var setRows = ‘’;
+for (var i = 0; i < ex.sets.length; i++) {
+var wt = gS(sk, d, ex.id, i, ‘wt’);
+var rps = gS(sk, d, ex.id, i, ‘reps’);
+var rpR = gS(sk, d, ex.id, i, ‘rpReps’);
+if (!wt && !rps && !rpR) continue;
+var pills = ‘’;
+if (wt) pills += ‘<span class="hp w">’ + wt + ‘kg</span>’;
+if (rps) pills += ‘<span class="hp r">’ + rps + ’ reps</span>’;
+if (rpR) pills += ‘<span class="hp p">+’ + rpR + ’ RP</span>’;
+setRows += ‘<div class="hsr"><span class="hsl">S’ + ex.sets[i].n + ‘</span>’ + pills + ‘</div>’;
+}
+if (!setRows) continue;
+exBlocks += ‘<div class="hex"><div class="hexn" style="color:' + s.color + '">’ + ex.name + ‘</div>’ + setRows + ‘</div>’;
+}
+var divider = bi > 0 ? ‘<div style="height:1px;background:#1a1a2e;margin:10px 0"></div>’ : ‘’;
+blocks += divider + ‘<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><div style="font-size:10px;color:' + s.color + ';font-weight:700;letter-spacing:.1em">’ + s.name.toUpperCase() + ‘</div><div style="font-size:12px;font-weight:600;margin-top:2px">’ + dn + ‘/’ + tot + ’ sets</div></div><div style="width:36px;height:36px;border-radius:50%;background:' + pctBg + ';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:' + pctColor + '">’ + pct + ‘%</div></div>’ + exBlocks + ‘</div>’;
+}
+sessLog += ‘<div class="hc"><div style="font-family:JetBrains Mono,monospace;font-size:13px;color:#3b82f6;margin-bottom:12px">’ + d + ‘</div>’ + blocks + ‘</div>’;
+}
+}
+
+return renderProgress() + ‘<div class="sl">Session Log</div>’ + sessLog;
+}
+
+function renderPage() {
+if (SK.indexOf(pg) !== -1) return renderSession();
+if (pg === ‘daily’) return renderDaily();
+if (pg === ‘history’) return renderHistory();
 return ‘’;
 }
 
-function renderSess(){
-const s=SESS[pg],t=today();
-return s.exercises.map(ex=>renderEx(s,ex,t)).join(’’)+renderCC();
+function render() {
+var app = document.getElementById(‘app’);
+app.innerHTML = renderHeader() + ‘<div class="ct">’ + renderPage() + ‘</div>’ + renderNav();
+bindEvents();
 }
 
-function renderEx(s,ex,t){
-const isOpen=openMap[ex.id]!==false;
-const dn=ex.sets.every((_,i)=>gS(pg,t,ex.id,i,‘done’)===‘1’);
-const isSS=ex.cue&&ex.cue.toLowerCase().includes(‘superset’);
-return `<div class="ec ${dn?'dn':''}" id="ec-${ex.id}"> <div class="eh" data-tog="${ex.id}"> <div class="ei"> <div class="ecr"><div class="edot" style="background:${s.color}"></div><span class="ecat" style="color:${s.color}">${ex.cat}</span></div> <div class="ename">${ex.name}</div> ${ex.cue?`<div class="ecue">${ex.cue}</div>`:''} </div> <div class="er">${dn?'<span class="edb">DONE</span>':''}<span class="ech ${isOpen?'op':''}">⌄</span></div> </div> ${isOpen?`<div class="es">${ex.sets.map((s2,i)=>renderSet(s2,i,ex,t,isSS)).join(’’)}</div>`:’’}
+function bindEvents() {
+var app = document.getElementById(‘app’);
 
-  </div>`;
-}
-
-function renderSet(s,i,ex,t,isSS){
-const dn=gS(pg,t,ex.id,i,‘done’)===‘1’;
-const wt=gS(pg,t,ex.id,i,‘wt’),rps=gS(pg,t,ex.id,i,‘reps’),rpR=gS(pg,t,ex.id,i,‘rpReps’);
-return `<div class="sr ${dn?'ck':''}" id="sr-${ex.id}-${i}"> <div class="st"> <span class="sn">SET ${s.n}</span> <span class="sg ${dn?'dn':''}">${s.t}</span> ${s.rp?'<span class="rpb">RP</span>':''} ${isSS?'<span class="ssb">SS</span>':''} <div class="cb ${dn?'ck':''}" data-chk="${ex.id}:${i}">${dn?'<span class="ct2">✓</span>':''}</div> </div> <div class="si nrp"> <div class="ig"><label style="color:#3b82f6">Weight</label><div class="iw"><input type="number" inputmode="decimal" id="i-${ex.id}-${i}-wt" class="ni ${wt?'hv':''}" placeholder="0" value="${wt}" style="border-color:${wt?'#3b82f688':'#1a1a2e'}"><span class="iu">kg</span></div></div> ${dn?`<div class="ig"><label style="color:#ef4444">Reps achieved</label><div class="iw"><input type="number" inputmode="numeric" id="i-${ex.id}-${i}-reps" class="ni ${rps?'hv':''}" placeholder="—" value="${rps}" style="border-color:${rps?'#ef444488':'#1a1a2e'}"><span class="iu">reps</span></div></div>` :`<div class="ig"><label style="color:#333">Reps achieved</label><div style="background:#0a0a14;border:1px solid #1a1a2e;border-radius:7px;padding:7px 10px;font-size:12px;color:#2a2a3e;font-family:'JetBrains Mono'">Tick set to log</div></div>`} </div> ${dn&&s.rp?`<div class="si nrp" style="margin-top:6px"><div class="ig"><label style="color:#f97316">RP reps achieved</label><div class="iw"><input type="number" inputmode="numeric" id="i-${ex.id}-${i}-rpReps" class="ni ${rpR?'hv':''}" placeholder="—" value="${rpR}" style="border-color:${rpR?'#f9731688':'#1a1a2e'}"><span class="iu">reps</span></div></div></div>`:’’}
-
-  </div>`;
-}
-
-function renderCC(){
-return `<div class="cc"><div class="sl">Client Overview</div><div class="cg"> ${[['Bodyweight','91 kg'],['Daily Calories','2,500 kcal'],['Protein Target','182g / day'],['Goal','Recomp']].map(([l,v])=>`<div class="cs"><div class="csl">${l}</div><div class="csv">${v}</div></div>`).join(’’)}
-
-  </div></div>`;
-}
-
-function renderDaily(){
-const t=today(),wd=wkDates(t),DAYS=[‘M’,‘T’,‘W’,‘T’,‘F’,‘S’,‘S’];
-const aW=wkAvg(‘bodyweight’),aC=wkAvg(‘calories’),aS=wkAvg(‘steps’),dl=dLogged();
-const ws=wd.map((d,i)=>{const hd=data.daily?.[d]&&(data.daily[d].bodyweight||data.daily[d].calories||data.daily[d].steps),it=d===t,bc=hd?(it?’#3b82f6’:’#22c55e’):’#1a1a2e’;return `<div class="wd"><div class="wdl" style="color:${it?'#3b82f6':'#333'};font-weight:${it?700:400}">${DAYS[i]}</div><div class="wdb" style="background:${bc}"></div></div>`;}).join(’’);
-const fields=[{f:‘bodyweight’,l:‘Bodyweight’,u:‘kg’,c:’#22c55e’,ph:‘91.0’},{f:‘calories’,l:‘Calories’,u:‘kcal’,c:’#f97316’,ph:‘2500’},{f:‘steps’,l:‘Steps’,u:‘steps’,c:’#3b82f6’,ph:‘10000’}];
-const fHtml=fields.map(({f,l,u,c,ph})=>{const v=gD(t,f);return `<div class="lf" style="background:#0d0d1a;border:1px solid ${v?c+'44':'#1a1a2e'}"><div class="lfl" style="color:${c}">${l}</div><div class="lbw"><input type="number" inputmode="decimal" id="dl-${f}" class="lbi ${v?'hv':''}" placeholder="${ph}" value="${v||''}" data-df="${f}" style="border-color:${v?c+'66':'#1a1a2e'}"><span class="lbu">${u}</span></div></div>`;}).join(’’);
-const nv=gD(t,‘notes’);
-const pastDs=Object.keys(data.daily||{}).sort().reverse().filter(d=>d!==t&&(data.daily[d].bodyweight||data.daily[d].calories||data.daily[d].steps||data.daily[d].notes)).slice(0,20);
-const pastH=pastDs.length?`<div class="sl" style="margin-top:22px">Previous Entries</div>${pastDs.map(d=>{const e=data.daily[d];const stp=e.steps?Number(e.steps).toLocaleString():null;return `<div class="pcard"><div class="hdate" style="margin-bottom:10px">${d}</div><div class="pgrid">${[[‘Weight’,e.bodyweight,‘kg’,’#22c55e’],[‘Calories’,e.calories,‘kcal’,’#f97316’],[‘Steps’,stp,’’,’#3b82f6’]].map(([l,v,u,c])=>`<div class="ps"><div class="psl">${l}</div><div class="psv" style="color:${v?c:'#2a2a3e'}">${v?v+(u?' '+u:''):'—'}</div></div>`).join(’’)}</div>${e.notes?`<div style="font-size:12px;color:#555;border-top:1px solid #1a1a2e;margin-top:10px;padding-top:8px;line-height:1.6">${e.notes}</div>`:’’}</div>`;}).join('')}`:’’;
-return `<div class="dac"> <div class="dah"><div class="sl" style="margin:0">This Week's Averages</div><span style="font-size:10px;color:#444;font-family:'JetBrains Mono'">${dl}/7 days</span></div> <div class="avg-g">${[[`Avg Weight`,aW,'kg','#22c55e'],[`Avg Calories`,aC,'kcal','#f97316'],[`Avg Steps`,aS?Math.round(aS).toLocaleString():null,'','#3b82f6']].map(([l,v,u,c])=>`<div class="ags"><div class="agl">${l}</div><div class="agv" style="color:${v?c:'#2a2a3e'}">${v||’—’}</div>${v&&u?`<div class="agu">${u}</div>`:’’}</div>`).join(’’)}</div>
-<div class="ws">${ws}</div>
-
-  </div>
-  <div class="sl">Log Today</div>
-  ${fHtml}
-  <div class="lf" style="background:#0d0d1a;border:1px solid ${nv?'#fff2':'#1a1a2e'}">
-    <div class="lfl" style="color:#555">Notes</div>
-    <textarea id="dl-notes" class="lta ${nv?'hv':''}" rows="3" placeholder="Energy, sleep, hunger..." data-df="notes">${nv||''}</textarea>
-  </div>
-  ${pastH}`;
-}
-
-function getWeekStats(dates){
-const stats={};
-SK.forEach(sk=>{
-SESS[sk].exercises.forEach(ex=>{
-dates.forEach(d=>{
-ex.sets.forEach((s,i)=>{
-if(gS(sk,d,ex.id,i,‘done’)===‘1’){
-if(!stats[ex.id]) stats[ex.id]={name:ex.name,color:SESS[sk].color,wts:[],rps:[]};
-const wt=parseFloat(gS(sk,d,ex.id,i,‘wt’));
-const rp=parseFloat(gS(sk,d,ex.id,i,‘reps’));
-if(wt>0&&!isNaN(wt)) stats[ex.id].wts.push(wt);
-if(rp>0&&!isNaN(rp)) stats[ex.id].rps.push(rp);
-}
+var navBtns = app.querySelectorAll(’[data-nav]’);
+for (var i = 0; i < navBtns.length; i++) {
+(function(btn) {
+btn.addEventListener(‘click’, function() {
+pg = btn.getAttribute(‘data-nav’);
+render();
 });
+})(navBtns[i]);
+}
+
+var togBtns = app.querySelectorAll(’[data-tog]’);
+for (var i = 0; i < togBtns.length; i++) {
+(function(btn) {
+btn.addEventListener(‘click’, function() {
+var id = btn.getAttribute(‘data-tog’);
+openMap[id] = openMap[id] === false ? true : false;
+render();
 });
+})(togBtns[i]);
+}
+
+var chkBtns = app.querySelectorAll(’[data-chk]’);
+for (var i = 0; i < chkBtns.length; i++) {
+(function(btn) {
+btn.addEventListener(‘click’, function(e) {
+e.stopPropagation();
+var parts = btn.getAttribute(‘data-chk’).split(’:’);
+var eid = parts[0];
+var si = parseInt(parts[1], 10);
+var t = getToday();
+var cur = gS(pg, t, eid, si, ‘done’);
+pS(pg, t, eid, si, ‘done’, cur === ‘1’ ? ‘’ : ‘1’);
+render();
 });
+})(chkBtns[i]);
+}
+
+var inpBtns = app.querySelectorAll(’[id^=“i-”]’);
+for (var i = 0; i < inpBtns.length; i++) {
+(function(inp) {
+inp.addEventListener(‘input’, function() {
+var parts = inp.id.split(’-’);
+var f = parts[parts.length - 1];
+var si = parseInt(parts[parts.length - 2], 10);
+var eid = parts.slice(1, parts.length - 2).join(’-’);
+pS(pg, getToday(), eid, si, f, inp.value);
+inp.classList.toggle(‘hv’, !!inp.value);
+var colors = {wt: ‘#3b82f688’, reps: ‘#ef444488’, rpReps: ‘#f9731688’};
+inp.style.borderColor = inp.value ? (colors[f] || ‘#3b82f688’) : ‘#1a1a2e’;
 });
-return stats;
-}
-function arrAvg(a){if(!a.length)return null;return(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1);}
-
-function renderProgress(){
-const t=today();
-const thisWk=wkDates(t);
-const lastWkStart=new Date(thisWk[0]);lastWkStart.setDate(lastWkStart.getDate()-7);
-const lastWk=wkDates(lastWkStart.toISOString().slice(0,10));
-const cur=getWeekStats(thisWk),prev=getWeekStats(lastWk);
-const allIds=[…new Set([…Object.keys(cur),…Object.keys(prev)])];
-if(!allIds.length) return `<div style="background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px"><div style="font-size:10px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px">Week on Week Progress</div><div style="font-size:12px;color:#333;line-height:1.8">Log at least one full session<br>to start tracking progress.</div></div>`;
-
-const rows=allIds.map(id=>{
-const c=cur[id]||{wts:[],rps:[]},p=prev[id]||{wts:[],rps:[]};
-const cW=arrAvg(c.wts),pW=arrAvg(p.wts),cR=arrAvg(c.rps),pR=arrAvg(p.rps);
-const color=(cur[id]||prev[id]).color,name=(cur[id]||prev[id]).name;
-const dW=cW&&pW?(parseFloat(cW)-parseFloat(pW)):null;
-const dR=cR&&pR?(parseFloat(cR)-parseFloat(pR)):null;
-const delta=(d,unit)=>{
-if(d===null) return `<div style="font-size:9px;color:#333;margin-top:5px">No prev data</div>`;
-if(d===0) return `<div style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.04);border-radius:5px;padding:3px 8px;margin-top:5px"><span style="font-size:11px;color:#555">—</span><span style="font-size:10px;color:#555;font-family:'JetBrains Mono'">No change</span></div>`;
-const pos=d>0;
-const bg=pos?‘rgba(34,197,94,.12)’:‘rgba(239,68,68,.12)’;
-const col=pos?’#22c55e’:’#ef4444’;
-const icon=pos?‘▲’:‘▼’;
-return `<div style="display:inline-flex;align-items:center;gap:5px;background:${bg};border-radius:5px;padding:4px 9px;margin-top:5px"> <span style="font-size:11px;color:${col}">${icon}</span> <span style="font-size:13px;font-weight:700;color:${col};font-family:'JetBrains Mono'">${pos?'+':''}${d.toFixed(1)}${unit}</span> </div>`;
-};
-return `<div style="background:#0a0a14;border-radius:10px;padding:12px;margin-bottom:8px"> <div style="font-size:10px;color:${color};font-weight:700;letter-spacing:.08em;margin-bottom:10px">${name}</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"> <div style="background:#080810;border-radius:8px;padding:10px"> <div style="font-size:9px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Avg Weight</div> <div style="font-family:'JetBrains Mono';font-size:17px;font-weight:700;color:${cW?'#dde1f0':'#2a2a3e'}">${cW?cW+'kg':'—'}</div> <div style="font-size:9px;color:#555;margin-top:3px">prev: ${pW?pW+'kg':'—'}</div> ${delta(dW,'kg')} </div> <div style="background:#080810;border-radius:8px;padding:10px"> <div style="font-size:9px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Avg Reps</div> <div style="font-family:'JetBrains Mono';font-size:17px;font-weight:700;color:${cR?'#dde1f0':'#2a2a3e'}">${cR||'—'}</div> <div style="font-size:9px;color:#555;margin-top:3px">prev: ${pR||'—'}</div> ${delta(dR,' reps')} </div> </div> </div>`;
-}).join(’’);
-
-return `<div style="background:#0d0d1a;border:1px solid #1a1a2e;border-radius:14px;padding:16px;margin-bottom:16px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<div style="font-size:10px;letter-spacing:.2em;color:#444;text-transform:uppercase">Week on Week Progress</div>
-<div style="font-size:9px;font-family:'JetBrains Mono';color:#444">${thisWk[0]} vs ${lastWk[0]}</div>
-</div>
-${rows}
-
-  </div>`;
+})(inpBtns[i]);
 }
 
-function renderHistory(){
-const allEntries=[];
-SK.forEach(sk=>{Object.keys(data.sessions?.[sk]||{}).forEach(d=>{if(!allEntries.find(e=>e.d===d&&e.sk===sk))allEntries.push({d,sk});});});
-allEntries.sort((a,b)=>b.d.localeCompare(a.d)||b.sk.localeCompare(a.sk));
-const byDate={};
-allEntries.forEach(({d,sk})=>{if(!byDate[d])byDate[d]=[];byDate[d].push(sk);});
-const dates=Object.keys(byDate).sort().reverse();
-const sessionLog=dates.length?dates.map(d=>{
-const blocks=byDate[d].map(sk=>{
-const s=SESS[sk],tot=totalS(sk),dn=doneS(sk,d),pct=Math.round(dn/tot*100);
-const exB=s.exercises.map(ex=>{
-const rows=ex.sets.map((sv,i)=>{const wt=gS(sk,d,ex.id,i,‘wt’),rps=gS(sk,d,ex.id,i,‘reps’),rpR=gS(sk,d,ex.id,i,‘rpReps’);if(!wt&&!rps&&!rpR)return null;return `<div class="hsr"><span class="hsl">S${sv.n}</span>${wt?`<span class="hp w">${wt}kg</span>`:''}${rps?`<span class="hp r">${rps} reps</span>`:''}${rpR?`<span class="hp p">+${rpR} RP</span>`:''}</div>`;}).filter(Boolean).join(’’);
-if(!rows)return ‘’;
-return `<div class="hex"><div class="hexn" style="color:${s.color}">${ex.name}</div>${rows}</div>`;
-}).filter(Boolean).join(’’);
-return `<div style="margin-bottom:6px"> <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"> <div><div style="font-size:10px;color:${s.color};font-weight:700;letter-spacing:.1em">${s.name.toUpperCase()}</div><div style="font-size:12px;font-weight:600;margin-top:2px">${dn}/${tot} sets</div></div> <div class="hpc" style="background:${pct===100?'rgba(34,197,94,.1)':'rgba(59,130,246,.1)'};color:${pct===100?'#22c55e':s.color}">${pct}%</div> </div>${exB} </div>`;
-}).join(`<div style="height:1px;background:#1a1a2e;margin:10px 0"></div>`);
-return `<div class="hc"><div style="font-family:'JetBrains Mono';font-size:13px;color:#3b82f6;margin-bottom:12px">${d}</div>${blocks}</div>`;
-}).join(’’):`<div class="emp">No sessions logged yet.<br>Complete your first session<br>to see history here.</div>`;
-
-return renderProgress()+`<div class="sl">Session Log</div>`+sessionLog;
+var dfInps = app.querySelectorAll(’[data-df]’);
+for (var i = 0; i < dfInps.length; i++) {
+(function(inp) {
+inp.addEventListener(‘input’, function() {
+var f = inp.getAttribute(‘data-df’);
+pD(getToday(), f, inp.value);
+inp.classList.toggle(‘hv’, !!inp.value);
+var colors = {bodyweight: ‘#22c55e’, calories: ‘#f97316’, steps: ‘#3b82f6’};
+var lf = inp.closest(’.lf’);
+if (lf && colors[f]) lf.style.borderColor = inp.value ? colors[f] + ‘44’ : ‘#1a1a2e’;
+});
+})(dfInps[i]);
+}
 }
 
-function bind(){
-const a=document.getElementById(‘app’);
-a.querySelectorAll(’[data-nav]’).forEach(b=>b.addEventListener(‘click’,()=>{pg=b.dataset.nav;render();}));
-a.querySelectorAll(’[data-tog]’).forEach(el=>el.addEventListener(‘click’,()=>{const id=el.dataset.tog;openMap[id]=openMap[id]===false?true:false;render();}));
-a.querySelectorAll(’[data-chk]’).forEach(el=>el.addEventListener(‘click’,e=>{e.stopPropagation();const[eid,si]=el.dataset.chk.split(’:’);const t=today(),cur=gS(pg,t,eid,+si,‘done’);pS(pg,t,eid,+si,‘done’,cur===‘1’?’’:‘1’);render();}));
-a.querySelectorAll(’[id^=“i-”]’).forEach(inp=>inp.addEventListener(‘input’,()=>{
-const p=inp.id.split(’-’),f=p[p.length-1],si=+p[p.length-2],eid=p.slice(1,p.length-2).join(’-’);
-pS(pg,today(),eid,si,f,inp.value);
-inp.classList.toggle(‘hv’,!!inp.value);
-const bc={wt:’#3b82f688’,reps:’#ef444488’,rpReps:’#f9731688’};
-inp.style.borderColor=inp.value?(bc[f]||’#3b82f688’):’#1a1a2e’;
-}));
-a.querySelectorAll(’[data-df]’).forEach(inp=>inp.addEventListener(‘input’,()=>{
-const f=inp.dataset.df;pD(today(),f,inp.value);inp.classList.toggle(‘hv’,!!inp.value);
-const c={bodyweight:’#22c55e’,calories:’#f97316’,steps:’#3b82f6’};
-const lf=inp.closest(’.lf’);if(lf&&c[f])lf.style.borderColor=inp.value?c[f]+‘44’:’#1a1a2e’;
-}));
-}
-
-try{load();render();}catch(e){document.getElementById(“app”).innerHTML=”<div style='padding:40px 20px;color:#dde1f0;font-family:sans-serif'><h2>Loading error</h2><p style='color:#ef4444'>”+e.message+”</p></div>”;}
+loadData();
+render();
 </script>
 
 </body>
